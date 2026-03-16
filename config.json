@@ -1,0 +1,37 @@
+{
+  "port": 3847,
+  "pollInterval": 300,
+  "colours": {
+    "com.apple.Terminal": "#00ff41",
+    "com.googlecode.iterm2": "#00ff41",
+    "dev.warp.Warp-Stable": "#00ff41",
+    "io.alacritty": "#00ff41",
+    "com.microsoft.VSCode": "#007acc",
+    "dev.zed.Zed": "#007acc",
+    "com.todesktop.230313mzl4w4u92": "#007acc",
+    "com.google.Chrome": "#4285f4",
+    "company.thebrowser.Browser": "#4285f4",
+    "org.mozilla.firefox": "#ff7139",
+    "com.apple.Safari": "#006cff",
+    "com.apple.finder": "#a2aaad",
+    "com.tinyspeck.slackmacgap": "#4a154b",
+    "com.figma.Desktop": "#f24e1e",
+    "com.spotify.client": "#1db954",
+    "md.obsidian": "#7c3aed",
+    "com.apple.MobileSMS": "#34c759",
+    "com.apple.mail": "#007aff"
+  },
+  "defaultColour": "#6c757d",
+  "filters": {
+    "ignoreApps": [
+      "Dock",
+      "Spotlight",
+      "Window Server",
+      "SystemUIServer",
+      "Control Centre",
+      "Notification Centre"
+    ],
+    "minWidth": 50,
+    "minHeight": 50
+  }
+}
