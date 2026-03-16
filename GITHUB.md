@@ -47,7 +47,7 @@ refactor(client): extract colour mapping to separate module
 
 | Date | Branch | Commits | Summary | Sprint |
 |------|--------|---------|---------|--------|
-| _TBD_ | _TBD_ | _TBD_ | _Project not yet initialised_ | 0 |
+| 2026-03-16 | main | 3634a23 | Initial release — all 3 components, 50 tests, setup scripts | 4 |
 
 ---
 
@@ -55,7 +55,7 @@ refactor(client): extract colour mapping to separate module
 
 | Branch | Status | Last Updated | Notes |
 |--------|--------|--------------|-------|
-| `main` | ⬜ Not created | — | — |
+| `main` | ✅ Active | 2026-03-16 | v0.1.0 tagged |
 | `dev`  | ⬜ Not created | — | — |
 
 ---
@@ -64,7 +64,7 @@ refactor(client): extract colour mapping to separate module
 
 | Tag | Date | Sprint | Description |
 |-----|------|--------|-------------|
-| _None yet_ | — | — | — |
+| v0.1.0 | 2026-03-16 | 4 | Initial release — daemon + server + PWA |
 
 ---
 

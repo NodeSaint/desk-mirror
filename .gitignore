@@ -24,5 +24,14 @@ build/
 # Logs
 *.log
 
+# TypeScript build info
+*.tsbuildinfo
+*.d.ts
+!src/**/*.d.ts
+vite.config.js
+
+# pytest
+.pytest_cache/
+
 # OS
 Thumbs.db
