@@ -124,16 +124,18 @@ trap cleanup EXIT INT TERM
 # Start relay server
 (cd src/server && npx tsx index.ts) &
 SERVER_PID=$!
-sleep 1
+sleep 2
 
 # Start client dev server
 (cd src/client && npx vite --host 0.0.0.0) &
 CLIENT_PID=$!
-sleep 1
+sleep 2
 
-# Start daemon
+# Start daemon (may warn about accessibility — that's OK)
 (cd "$ROOT" && $PYTHON -m src.daemon.main) &
 DAEMON_PID=$!
 
-# Wait for any process to exit
-wait -n $SERVER_PID $CLIENT_PID $DAEMON_PID 2>/dev/null || true
+info "All services running. Press Ctrl+C to stop."
+
+# Wait forever until user hits Ctrl+C
+wait $SERVER_PID $CLIENT_PID $DAEMON_PID 2>/dev/null || true

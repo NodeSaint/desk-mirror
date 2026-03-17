@@ -10,6 +10,8 @@ export interface Rooms {
   pendingCommands: Map<string, WebSocket>;
   startTime: number;
   lastDaemonPing: number;
+  /** Time between the two most recent daemon messages (ms). */
+  lastRoundTrip: number;
 }
 
 export function createRooms(): Rooms {
@@ -19,6 +21,7 @@ export function createRooms(): Rooms {
     pendingCommands: new Map(),
     startTime: Date.now(),
     lastDaemonPing: 0,
+    lastRoundTrip: 0,
   };
 }
 
@@ -92,7 +95,15 @@ export function uptimeSeconds(rooms: Rooms): number {
   return Math.floor((Date.now() - rooms.startTime) / 1000);
 }
 
+export function updateDaemonPing(rooms: Rooms): void {
+  const now = Date.now();
+  if (rooms.lastDaemonPing > 0) {
+    rooms.lastRoundTrip = now - rooms.lastDaemonPing;
+  }
+  rooms.lastDaemonPing = now;
+}
+
 export function latencyMs(rooms: Rooms): number {
   if (!rooms.daemon) return -1;
-  return Date.now() - rooms.lastDaemonPing;
+  return rooms.lastRoundTrip;
 }

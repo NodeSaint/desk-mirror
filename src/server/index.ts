@@ -17,6 +17,7 @@ import {
   sendToDaemon,
   trackCommand,
   routeAck,
+  updateDaemonPing,
   uptimeSeconds,
   latencyMs,
 } from "./rooms.ts";
@@ -116,7 +117,7 @@ function handleDaemonConnection(ws: WebSocket): void {
         return;
       }
 
-      rooms.lastDaemonPing = Date.now();
+      updateDaemonPing(rooms);
       logger.debug("Daemon message", { type });
 
       switch (type) {
