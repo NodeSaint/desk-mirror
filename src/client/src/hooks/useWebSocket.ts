@@ -56,6 +56,7 @@ function applyDiff(
         height: m.height,
         ...(m.title !== undefined ? { title: m.title } : {}),
         ...(m.isActive !== undefined ? { isActive: m.isActive } : {}),
+        ...(m.zIndex !== undefined ? { zIndex: m.zIndex } : {}),
       });
     }
   }

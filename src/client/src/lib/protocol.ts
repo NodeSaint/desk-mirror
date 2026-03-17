@@ -13,6 +13,7 @@ export interface WindowData {
   readonly isActive: boolean;
   readonly isMinimised: boolean;
   readonly colour: string;
+  readonly zIndex: number;
 }
 
 export interface ScreenData {
@@ -29,6 +30,7 @@ export interface MovedWindowData {
   readonly height: number;
   readonly title?: string;
   readonly isActive?: boolean;
+  readonly zIndex?: number;
 }
 
 export interface LayoutFullMessage {

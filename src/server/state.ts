@@ -55,6 +55,7 @@ export function applyDiff(state: LayoutState, msg: LayoutDiffMessage): void {
         height: moved.height,
         ...(moved.title !== undefined ? { title: moved.title } : {}),
         ...(moved.isActive !== undefined ? { isActive: moved.isActive } : {}),
+        ...(moved.zIndex !== undefined ? { zIndex: moved.zIndex } : {}),
       });
     }
   }

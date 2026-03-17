@@ -43,7 +43,7 @@ export const WindowBlock = memo(function WindowBlock({
     transition: isDragging ? "none" : "left 0.2s ease-out, top 0.2s ease-out, width 0.2s ease-out, height 0.2s ease-out, opacity 0.15s ease-out",
     animation: "block-appear 0.15s ease-out",
     opacity: isDragging ? 0.8 : 1,
-    zIndex: isDragging ? 1000 : w.isActive ? 10 : 1,
+    zIndex: isDragging ? 1000 : (w.zIndex ?? 1),
     touchAction: "none",
     cursor: "pointer",
     userSelect: "none",

@@ -43,8 +43,9 @@ def diff_layouts(
         )
         title_changed = new.title != old.title
         active_changed = new.is_active != old.is_active
+        z_changed = new.z_index != old.z_index
 
-        if position_changed or title_changed or active_changed:
+        if position_changed or title_changed or active_changed or z_changed:
             moved.append(
                 MovedWindow(
                     id=wid,
@@ -54,6 +55,7 @@ def diff_layouts(
                     height=new.height,
                     title=new.title if title_changed else None,
                     is_active=new.is_active if active_changed else None,
+                    z_index=new.z_index if z_changed else None,
                 )
             )
 

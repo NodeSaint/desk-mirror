@@ -100,6 +100,10 @@ def get_windows() -> list[Window]:
 
     windows: list[Window] = []
 
+    # CGWindowListCopyWindowInfo returns windows in front-to-back order.
+    # We first collect valid windows, then assign z-indices afterwards.
+    raw_windows: list[tuple] = []
+
     for w in window_list:
         # Skip windows without an owner
         owner = w.get(Quartz.kCGWindowOwnerName, "")
@@ -142,6 +146,13 @@ def get_windows() -> list[Window]:
         # Get bundle ID from the running application
         bundle_id = _bundle_id_for_pid(pid)
 
+        raw_windows.append(
+            (wid, owner, title, bundle_id, x, y, width, height)
+        )
+
+    # Assign z-indices: first in list = frontmost = highest z-index
+    total = len(raw_windows)
+    for i, (wid, owner, title, bundle_id, x, y, width, height) in enumerate(raw_windows):
         windows.append(
             Window(
                 id=f"w-{wid}",
@@ -152,10 +163,11 @@ def get_windows() -> list[Window]:
                 y=y,
                 width=width,
                 height=height,
-                space=1,  # Space detection is limited without SkyLight — default to 1
+                space=1,
                 is_active=(wid == active_wid),
-                is_minimised=False,  # We only list on-screen windows
+                is_minimised=False,
                 colour=colour_for_bundle(bundle_id),
+                z_index=total - i,
             )
         )
 

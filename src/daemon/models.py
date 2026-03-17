@@ -22,6 +22,7 @@ class Window:
     is_active: bool
     is_minimised: bool
     colour: str
+    z_index: int = 0
 
     def to_dict(self) -> dict:
         """Serialise to protocol-compatible dict (camelCase keys)."""
@@ -38,6 +39,7 @@ class Window:
             "isActive": self.is_active,
             "isMinimised": self.is_minimised,
             "colour": self.colour,
+            "zIndex": self.z_index,
         }
 
 
@@ -68,6 +70,7 @@ class MovedWindow:
     height: int
     title: Optional[str] = None
     is_active: Optional[bool] = None
+    z_index: Optional[int] = None
 
     def to_dict(self) -> dict:
         d: dict = {
@@ -81,6 +84,8 @@ class MovedWindow:
             d["title"] = self.title
         if self.is_active is not None:
             d["isActive"] = self.is_active
+        if self.z_index is not None:
+            d["zIndex"] = self.z_index
         return d
 
 
