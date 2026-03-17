@@ -47,6 +47,11 @@ refactor(client): extract colour mapping to separate module
 
 | Date | Branch | Commits | Summary | Sprint |
 |------|--------|---------|---------|--------|
+| 2026-03-17 | main | v0.3.2 | Beginner-friendly README, session 5 PRIMER update | post-4 |
+| 2026-03-17 | main | v0.3.1 | Fix drag-to-move (AXValueCreate in HIServices) | post-4 |
+| 2026-03-17 | main | v0.3.0 | Drag windows within screen boundaries | post-4 |
+| 2026-03-17 | main | v0.2.0 | Window z-order mirroring | post-4 |
+| 2026-03-17 | main | v0.1.1 | Latency fix + start.sh stabilisation | post-4 |
 | 2026-03-16 | main | 3634a23 | Initial release — all 3 components, 50 tests, setup scripts | 4 |
 
 ---
@@ -55,7 +60,7 @@ refactor(client): extract colour mapping to separate module
 
 | Branch | Status | Last Updated | Notes |
 |--------|--------|--------------|-------|
-| `main` | ✅ Active | 2026-03-16 | v0.1.0 tagged |
+| `main` | ✅ Active | 2026-03-17 | v0.3.2 latest |
 | `dev`  | ⬜ Not created | — | — |
 
 ---
@@ -64,6 +69,11 @@ refactor(client): extract colour mapping to separate module
 
 | Tag | Date | Sprint | Description |
 |-----|------|--------|-------------|
+| v0.3.2 | 2026-03-17 | post-4 | Beginner-friendly README + session updates |
+| v0.3.1 | 2026-03-17 | post-4 | Working drag-to-move windows |
+| v0.3.0 | 2026-03-17 | post-4 | Drag within screen boundaries |
+| v0.2.0 | 2026-03-17 | post-4 | Window z-order mirroring |
+| v0.1.1 | 2026-03-17 | post-4 | Latency fix + start.sh fix |
 | v0.1.0 | 2026-03-16 | 4 | Initial release — daemon + server + PWA |
 
 ---

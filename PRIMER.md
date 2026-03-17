@@ -8,9 +8,9 @@
 
 | Field               | Value                        |
 |---------------------|------------------------------|
-| **Current Sprint**  | Sprint 4 — Complete (v0.1.0) |
-| **Last Session**    | Session 4                    |
-| **Last Updated**    | 2026-03-16                   |
+| **Current Sprint**  | Post-Sprint 4 (v0.3.1)      |
+| **Last Session**    | Session 5                    |
+| **Last Updated**    | 2026-03-17                   |
 | **Blocker**         | None                         |
 | **Next Action**     | Sprint 5 stretch goals       |
 
@@ -166,6 +166,12 @@ desk-mirror/
 ## Session Log
 
 > Append a new entry at the top each session. Never delete old entries.
+
+### Session 5 — Post-launch fixes + features
+- **Date:** 2026-03-17
+- **What happened:** First live test on real iPhone over Tailscale. Fixed EADDRINUSE crash by killing stale processes. Fixed start.sh using `wait -n` (not supported in zsh) — replaced with plain `wait`. Fixed latency display growing unboundedly — now shows interval between daemon messages. Added window z-index tracking (v0.2.0) so phone mirrors actual stacking order from CGWindowList front-to-back ordering. Fixed drag-to-move: AXValueCreate was in HIServices not Quartz, used CGPoint/CGSize with proper constants (v0.3.1). Rewrote useDrag.ts to properly map touch deltas to desktop coordinates with screen boundary clamping. Wrote beginner-friendly README with step-by-step setup, Tailscale guide, and troubleshooting. All 50 tests passing. Pushed v0.1.0, v0.1.1, v0.2.0, v0.3.0, v0.3.1.
+- **What's next:** Sprint 5 stretch goals (Linux support, thumbnails, multi-monitor, etc.)
+- **Blockers:** None.
 
 ### Session 4 — Sprint 4: Integration, Polish & v0.1.0
 - **Date:** 2026-03-16
