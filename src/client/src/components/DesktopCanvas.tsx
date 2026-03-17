@@ -44,11 +44,11 @@ export function DesktopCanvas({
     viewportHeight,
   );
 
-  // Window sizes map for drag calculations
-  const windowSizes = useMemo(() => {
-    const map = new Map<string, { width: number; height: number }>();
+  // Window desktop positions for drag calculations
+  const windowPositions = useMemo(() => {
+    const map = new Map<string, { x: number; y: number; width: number; height: number }>();
     for (const w of layout.windows) {
-      map.set(w.id, { width: w.width, height: w.height });
+      map.set(w.id, { x: w.x, y: w.y, width: w.width, height: w.height });
     }
     return map;
   }, [layout.windows]);
@@ -97,7 +97,7 @@ export function DesktopCanvas({
   }, []);
 
   const { dragging, dragDeltaX, dragDeltaY, onTouchStart, onTouchMove, onTouchEnd } =
-    useDrag(metrics, handleFocus, handleMove, handleLongPress, windowSizes);
+    useDrag(metrics, layout.screen, handleFocus, handleMove, handleLongPress, windowPositions);
 
   const handleClose = useCallback(
     (windowId: string) => {

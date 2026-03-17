@@ -17,6 +17,7 @@ const window1: WindowData = {
   isActive: true,
   isMinimised: false,
   colour: "#00ff41",
+  zIndex: 1,
 };
 
 describe("calculateMetrics", () => {

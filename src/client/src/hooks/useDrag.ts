@@ -2,15 +2,17 @@
 
 import { useCallback, useRef, useState } from "react";
 import type { LayoutMetrics } from "./useLayout.ts";
-import { toDesktopCoords } from "./useLayout.ts";
-import { makeCommandId } from "../lib/protocol.ts";
+import type { ScreenData } from "../lib/protocol.ts";
 
 interface DragState {
   readonly windowId: string;
   readonly startX: number;
   readonly startY: number;
-  readonly offsetX: number;
-  readonly offsetY: number;
+  /** Original desktop position of the window when drag started. */
+  readonly origDesktopX: number;
+  readonly origDesktopY: number;
+  readonly desktopWidth: number;
+  readonly desktopHeight: number;
 }
 
 interface UseDragReturn {
@@ -27,10 +29,11 @@ const LONG_PRESS_MS = 500;
 
 export function useDrag(
   metrics: LayoutMetrics | null,
+  screen: ScreenData | null,
   onFocus: (windowId: string) => void,
   onMove: (windowId: string, x: number, y: number, w: number, h: number) => void,
   onLongPress: (windowId: string) => void,
-  windowSizes: Map<string, { width: number; height: number }>,
+  windowPositions: Map<string, { x: number; y: number; width: number; height: number }>,
 ): UseDragReturn {
   const dragRef = useRef<DragState | null>(null);
   const isDraggingRef = useRef(false);
@@ -44,12 +47,17 @@ export function useDrag(
       const touch = e.touches[0];
       if (!touch) return;
 
+      const pos = windowPositions.get(windowId);
+      if (!pos) return;
+
       dragRef.current = {
         windowId,
         startX: touch.clientX,
         startY: touch.clientY,
-        offsetX: 0,
-        offsetY: 0,
+        origDesktopX: pos.x,
+        origDesktopY: pos.y,
+        desktopWidth: pos.width,
+        desktopHeight: pos.height,
       };
       isDraggingRef.current = false;
       setDragDeltaX(0);
@@ -63,7 +71,7 @@ export function useDrag(
         }
       }, LONG_PRESS_MS);
     },
-    [onLongPress],
+    [onLongPress, windowPositions],
   );
 
   const onTouchMove = useCallback((e: React.TouchEvent) => {
@@ -83,7 +91,6 @@ export function useDrag(
       return;
     }
 
-    dragRef.current = { ...drag, offsetX: dx, offsetY: dy };
     setDragDeltaX(dx);
     setDragDeltaY(dy);
   }, []);
@@ -95,29 +102,35 @@ export function useDrag(
 
       if (!drag) return;
 
-      if (isDraggingRef.current && metrics) {
-        // Calculate new desktop position
-        const touch = e.changedTouches[0];
-        if (touch) {
-          const newViewportX = touch.clientX - drag.offsetX + drag.startX;
-          const newViewportY = touch.clientY - drag.offsetY + drag.startY;
+      if (isDraggingRef.current && metrics && screen) {
+        // Convert viewport drag delta to desktop space delta
+        const deltaDesktopX = Math.round(
+          (e.changedTouches[0]!.clientX - drag.startX) / metrics.scale,
+        );
+        const deltaDesktopY = Math.round(
+          (e.changedTouches[0]!.clientY - drag.startY) / metrics.scale,
+        );
 
-          // Get centre of the drag endpoint
-          const endX = touch.clientX;
-          const endY = touch.clientY;
+        // New desktop position = original + delta
+        let newX = drag.origDesktopX + deltaDesktopX;
+        let newY = drag.origDesktopY + deltaDesktopY;
 
-          const desktop = toDesktopCoords(endX, endY, metrics);
-          const size = windowSizes.get(drag.windowId);
-          if (size) {
-            // Position so the window centre is at the drop point
-            onMove(
-              drag.windowId,
-              desktop.x - Math.round(size.width / 2),
-              desktop.y - Math.round(size.height / 2),
-              size.width,
-              size.height,
-            );
-          }
+        // Clamp to screen boundaries — keep at least 50px visible
+        const minVisible = 50;
+        newX = Math.max(-drag.desktopWidth + minVisible, Math.min(newX, screen.width - minVisible));
+        newY = Math.max(0, Math.min(newY, screen.height - minVisible));
+
+        onMove(
+          drag.windowId,
+          newX,
+          newY,
+          drag.desktopWidth,
+          drag.desktopHeight,
+        );
+
+        // Haptic on drop
+        if (navigator.vibrate) {
+          navigator.vibrate(10);
         }
       } else if (!isDraggingRef.current) {
         // It was a tap
@@ -130,7 +143,7 @@ export function useDrag(
       setDragDeltaX(0);
       setDragDeltaY(0);
     },
-    [metrics, onFocus, onMove, windowSizes],
+    [metrics, screen, onFocus, onMove],
   );
 
   return { dragging, dragDeltaX, dragDeltaY, onTouchStart, onTouchMove, onTouchEnd };
