@@ -12,9 +12,15 @@ try:
         AXUIElementCopyAttributeValue,
         AXUIElementSetAttributeValue,
         AXUIElementPerformAction,
+        AXValueCreate,
     )
     import Quartz
+    from Quartz import CGPoint, CGSize
     from AppKit import NSWorkspace
+
+    # AXValue type constants
+    kAXValueTypeCGPoint = 1
+    kAXValueTypeCGSize = 2
 except ImportError:
     pass  # Handled in main.py
 
@@ -119,17 +125,13 @@ def execute_move(
             return False, "Window not found"
 
         # Set position
-        position = Quartz.CGPointMake(x, y)
-        position_value = Quartz.AXValueCreate(
-            Quartz.kAXValueTypeCGPoint, position  # type: ignore[arg-type]
-        )
+        position = CGPoint(x=float(x), y=float(y))
+        position_value = AXValueCreate(kAXValueTypeCGPoint, position)
         AXUIElementSetAttributeValue(ax_win, "AXPosition", position_value)
 
         # Set size
-        size = Quartz.CGSizeMake(width, height)
-        size_value = Quartz.AXValueCreate(
-            Quartz.kAXValueTypeCGSize, size  # type: ignore[arg-type]
-        )
+        size = CGSize(width=float(width), height=float(height))
+        size_value = AXValueCreate(kAXValueTypeCGSize, size)
         AXUIElementSetAttributeValue(ax_win, "AXSize", size_value)
 
         return True, None
